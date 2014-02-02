@@ -6,7 +6,7 @@
 #include <termios.h>
 
 #define MODEM "/dev/ttyUSB0"
-#define BAUDRATE B38400
+#define BAUDRATE B19200
 
 
 int main(void) {
@@ -18,7 +18,7 @@ int main(void) {
     char data[2048];
     int count = 0;
 
-    if ((fd = open("dump.bin", O_RDONLY))) {
+    if ((fd = open("dump.bin", O_RDONLY)) != -1) {
 
     	while (read(fd, &c, 1) > 0) {
     		data[count++] = c;
@@ -36,7 +36,7 @@ int main(void) {
     tio.c_cflag=CS8|CREAD|CLOCAL;
     tio.c_lflag=0;
     tio.c_cc[VMIN]=1;
-    tio.c_cc[VTIME]=5;
+    tio.c_cc[VTIME]=10;
     if((tty_fd = open(MODEM , O_RDWR)) == -1) {
         printf("Error while opening\n");
         return -1;
